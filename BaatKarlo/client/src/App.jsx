@@ -35,6 +35,7 @@ function App() {
                 </ProtectRoute>
               }
             />
+            {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </Suspense>
         <Suspense fallback={<div>Loading...</div>}>
@@ -44,7 +45,6 @@ function App() {
             <Route path="/admin/user" element={<UserManagement />} />
             <Route path="/admin/chats" element={<ChatManagement />} />
             <Route path="/admin/messages" element={<MessageManagement />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

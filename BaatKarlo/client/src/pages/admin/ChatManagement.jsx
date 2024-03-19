@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Adminlayout from "../../components/layout/Adminlayout";
 import Table from "../../components/shared/Table";
-import { Avatar } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import { dashboardData } from "../../constants/sampleData";
 import { transformImage } from "../../lib/features";
+import AvatarCard from "../../components/shared/AvatarCard";
 
 const columns = [
   {
@@ -17,33 +18,46 @@ const columns = [
     headerName: "Avatar",
     headerClassName: "table-header",
     width: 150,
-    renderCell: (params) => (
-      <Avatar alt={params.row.name} src={params.row.avatar} />
-    ),
+    renderCell: (params) => <AvatarCard avatar={params.row.avatar} />,
   },
   {
     field: "name",
     headerName: "Name",
     headerClassName: "table-header",
-    width: 200,
+    width: 300,
   },
   {
-    field: "username",
-    headerName: "Username",
+    field: "totalMembers",
+    headerName: "Total Members",
+    headerClassName: "table-header",
+    width: 120,
+  },
+  {
+    field: "members",
+    headerName: "Members",
+    headerClassName: "table-header",
+    width: 400,
+    renderCell: (params) => (
+      <AvatarCard max={100} avatar={params.row.members} />
+    ),
+  },
+  {
+    field: "totalMessages",
+    headerName: "Total Messages",
     headerClassName: "table-header",
     width: 200,
   },
   {
-    field: "friends",
-    headerName: "Friends",
+    field: "creator",
+    headerName: "Created By",
     headerClassName: "table-header",
-    width: 200,
-  },
-  {
-    field: "groups",
-    headerName: "Groups",
-    headerClassName: "table-header",
-    width: 200,
+    width: 250,
+    renderCell: (params) => (
+      <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
+        <Avatar alt={params.row.creator.name} src={params.row.creator.avatar} />
+        <span>{params.row.creator.name}</span>
+      </Stack>
+    ),
   },
 ];
 const ChatManagement = () => {
@@ -51,17 +65,22 @@ const ChatManagement = () => {
 
   useEffect(() => {
     setRows(
-      dashboardData.users.map((i) => ({
+      dashboardData.chats.map((i) => ({
         ...i,
         id: i._id,
-        avatar: transformImage(i.avatar, 50),
+        avatar: i.avatar.map((i) => transformImage(i, 50)),
+        members: i.members.map((i) => transformImage(i.avatar, 50)),
+        creator: {
+          name: i.creator.name,
+          avatar: transformImage(i.creator.avatar, 50),
+        },
       }))
     );
   }, []);
 
   return (
     <Adminlayout>
-      <Table heading={"All Users"} columns={columns} rows={rows} />
+      <Table heading={"All Groups"} columns={columns} rows={rows} />
     </Adminlayout>
   );
 };
