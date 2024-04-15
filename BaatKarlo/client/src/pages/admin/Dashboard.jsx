@@ -72,7 +72,7 @@ const Dashboard = () => {
             lg: "row",
           }}
           flexWrap={"wrap"}
-          justifyContent={"center"}
+          // justifyContent={"center"}
           alignItems={{
             xs: "center",
             lg: "stretch",
@@ -87,8 +87,8 @@ const Dashboard = () => {
               padding: "1rem",
               borderRadius: "1rem",
               width: "100%",
-              maxWidth: "30rem",
-              height: "20rem",
+              maxWidth: "35rem",
+              height: "22rem",
             }}
           >
             <Typography margin={"1rem 1rem"} variant="h5">
@@ -102,7 +102,7 @@ const Dashboard = () => {
               padding: "1rem",
               borderRadius: "1rem",
               width: "100%",
-              height: "20rem",
+              height: "22rem",
               maxWidth: "20rem",
               display: "flex",
               justifyContent: "center",
