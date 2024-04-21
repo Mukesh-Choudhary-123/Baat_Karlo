@@ -6,6 +6,8 @@ import { ALERT, REFETCH_CHAT } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
 import { User } from "../models/user.js";
 
+//#region New Group Chat
+
 const newGroupChat = TryCatch(async (req, res, next) => {
   const { name, members } = req.body;
 
@@ -29,6 +31,8 @@ const newGroupChat = TryCatch(async (req, res, next) => {
     message: "Group Created",
   });
 });
+
+//#region Get My Chat
 
 const getMyChats = TryCatch(async (req, res, next) => {
   const chats = await Chat.find({ members: req.user }).populate(
@@ -60,6 +64,8 @@ const getMyChats = TryCatch(async (req, res, next) => {
   });
 });
 
+//#region Get My Groups
+
 const getMyGroups = TryCatch(async (req, res, next) => {
   const chats = await Chat.find({
     members: req.user,
@@ -79,6 +85,8 @@ const getMyGroups = TryCatch(async (req, res, next) => {
     groups,
   });
 });
+
+//#region Add Members
 
 const addMembers = TryCatch(async (req, res, next) => {
   const { chatId, members } = req.body;
@@ -129,6 +137,8 @@ const addMembers = TryCatch(async (req, res, next) => {
   });
 });
 
+//#region Remove Members
+
 const removeMember = TryCatch(async (req, res, next) => {
   const { userId, chatId } = req.body;
 
@@ -167,6 +177,8 @@ const removeMember = TryCatch(async (req, res, next) => {
     message: "Message removed successfully",
   });
 });
+
+//#region Leave Group
 
 const leaveGroup = TryCatch(async (req, res, next) => {
   const chatId = req.params.id;
@@ -207,6 +219,9 @@ const leaveGroup = TryCatch(async (req, res, next) => {
     message: "Message removed successfully",
   });
 });
+
+//#region Export
+
 export {
   newGroupChat,
   getMyChats,

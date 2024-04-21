@@ -25,7 +25,7 @@ const Profile = () => {
           border: "2px solid white",
         }}
       />
-      <ProfileCard heading={"Bio"} text={"Always Be Happy"} />;
+      <ProfileCard heading={"Bio"} text={"🤘 Always Be Happy ❤"} />;
       <ProfileCard
         heading={"Username"}
         text={"mukesh637"}
@@ -59,7 +59,7 @@ const ProfileCard = ({ text, Icon, heading }) => (
     <Stack>
       <Typography variant="body1">{text}</Typography>
       <Typography color={"gray"} variant="caption">
-        {heading}
+        ({heading})
       </Typography>
     </Stack>
   </Stack>

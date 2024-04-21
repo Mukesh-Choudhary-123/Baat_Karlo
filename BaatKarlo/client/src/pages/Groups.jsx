@@ -7,6 +7,7 @@ import {
   Drawer,
   Grid,
   IconButton,
+  Paper,
   Stack,
   TextField,
   Tooltip,
@@ -24,6 +25,7 @@ import { Link } from "../components/styles/styledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { sampleChats, sampleUsers } from "../constants/sampleData";
 import UserItem from "../components/shared/UserItem";
+import Header from "../components/layout/Header";
 
 const ConfirmDeleteDialog = lazy(() =>
   import("../components/dialogs/ConfirmDeleteDialog")
@@ -187,109 +189,124 @@ const Groups = () => {
   );
 
   return (
-    <Grid container height={"100vh"}>
-      <Grid
-        item
-        sx={{
-          display: {
-            xs: "none",
-            sm: "block",
-          },
-        }}
-        sm={4}
-        bgcolor={"bisque"}
-        textAlign={"center"}
-        overflow={"auto"}
-      >
-        <GroupsList myGroups={sampleChats} chatId={chatId} />
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          position: "relative",
-          padding: "1rem 3rem",
-        }}
-      >
-        {IconBtns}
-        {groupName && (
-          <>
-            {GroupName}
-            <Typography
-              margin={"2rem"}
-              alignSelf={"flex-start"}
-              variant="body1"
-            >
-              Members
-            </Typography>
-            <Stack
-              maxWidth={"40rem"}
-              width={"100%"}
-              boxSizing={"border-box"}
-              padding={{
-                sm: "1rem",
-                xs: "0",
-                md: "1rem 4rem",
-              }}
-              spacing={"2rem"}
-              // bgcolor={"bisque"}
-              height={"50vh"}
-              overflow={"auto"}
-              marginBottom={"1rem"}
-            >
-              {sampleUsers.map((i) => (
-                <UserItem
-                  user={i}
-                  key={i._id}
-                  isAdded
-                  styling={{
-                    boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
-                    padding: "1rem 1rem",
-                    borderRadius: "1rem",
-                  }}
-                  handler={removeMemberHandler}
-                />
-              ))}
-            </Stack>
+    <>
+      <Header />
+      <Grid container height={"calc(100vh - 4rem)"} overflow={"hidden"}>
+        <Grid
+          item
+          sx={{
+            display: {
+              xs: "none",
+              sm: "block",
+            },
+            "&::-webkit-scrollbar": { width: "2px" },
+            "&::-webkit-scrollbar-track": { background: "#f1f1f1" },
+            "&::-webkit-scrollbar-thumb": { background: "#888" },
+          }}
+          sm={3}
+          bgcolor={"white"}
+          textAlign={"center"}
+          overflow={"auto"}
+        >
+          <GroupsList myGroups={sampleChats} chatId={chatId} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            position: "relative",
+            padding: "1rem 3rem",
+          }}
+        >
+          {IconBtns}
+          {groupName && (
+            <>
+              {GroupName}
+              <Typography
+                // margin={"2rem"}
+                alignSelf={"flex-start"}
+                variant="body1"
+                fontWeight={"600"}
+              >
+                All Members
+              </Typography>
 
-            {ButtonGroup}
-          </>
+              <Stack
+                maxWidth={"40rem"}
+                width={"100%"}
+                boxSizing={"border-box"}
+                padding={{
+                  sm: "1rem",
+                  xs: "0",
+                  md: "1rem 4rem",
+                }}
+                spacing={"2rem"}
+                // bgcolor={"rgba(0,0,0,0.1)"}
+                height={"50vh"}
+                borderRadius={"1rem"}
+                overflow={"auto"}
+                marginBottom={"1rem"}
+                sx={{
+                  "&::-webkit-scrollbar": { width: "4px" },
+                  "&::-webkit-scrollbar:hover": { width: "6px" },
+                  "&::-webkit-scrollbar-track": { background: "#f1f1f1" },
+                  "&::-webkit-scrollbar-thumb": { background: "#888" },
+                }}
+              >
+                {sampleUsers.map((i) => (
+                  <UserItem
+                    user={i}
+                    key={i._id}
+                    isAdded
+                    styling={{
+                      boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
+                      padding: "1rem 1rem",
+                      borderRadius: "1rem",
+                    }}
+                    handler={removeMemberHandler}
+                  />
+                ))}
+              </Stack>
+
+              {ButtonGroup}
+            </>
+          )}
+        </Grid>
+
+        {isAddMember && (
+          <Suspense fallback={<Backdrop open />}>
+            <AddMemberDialog />
+          </Suspense>
         )}
+
+        {confirmDeleteDialog && (
+          <Suspense fallback={<Backdrop open />}>
+            <ConfirmDeleteDialog
+              open={confirmDeleteDialog}
+              handleClose={closeConfirmDeleteHandler}
+              deleteHandler={deleteHandler}
+            />
+          </Suspense>
+        )}
+
+        <Drawer
+          open={isMobileMenuOpen}
+          onClose={handleMobileClose}
+          sx={{
+            display: {
+              xs: "block",
+              sm: "none",
+            },
+          }}
+        >
+          <GroupsList w={"50vw"} myGroups={sampleChats} chatId={chatId} />
+        </Drawer>
       </Grid>
-
-      {isAddMember && (
-        <Suspense fallback={<Backdrop open />}>
-          <AddMemberDialog />
-        </Suspense>
-      )}
-
-      {confirmDeleteDialog && (
-        <Suspense fallback={<Backdrop open />}>
-          <ConfirmDeleteDialog
-            open={confirmDeleteDialog}
-            handleClose={closeConfirmDeleteHandler}
-            deleteHandler={deleteHandler}
-          />
-        </Suspense>
-      )}
-
-      <Drawer
-        open={isMobileMenuOpen}
-        onClose={handleMobileClose}
-        sx={{
-          display: {
-            xs: "block",
-            sm: "none",
-          },
-        }}
-      >
-        <GroupsList w={"50vw"} myGroups={sampleChats} chatId={chatId} />
-      </Drawer>
-    </Grid>
+    </>
   );
 };
 
