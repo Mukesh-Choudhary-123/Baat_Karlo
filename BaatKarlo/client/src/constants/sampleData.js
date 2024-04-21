@@ -203,81 +203,73 @@ export const sampleNotifications = [
 
 export const sampleMessage = [
   {
-    attachments: [
-      {
-        public_id: "asdsad",
-        url: "https://www.w3schools.com/howto/img_avatar.png",
-      },
-    ],
-    content: "Muksa Thore Message Aayo Hai",
+    content: "Muksa  the kikan ho ? ",
     _id: "ndjhndsdurfgvr",
     sender: {
       _id: "user._id",
-      name: "muksa",
+      name: "Mukesh Choudhary",
     },
     chat: "chatId",
     createdAt: "2024-02-12T10:41:30.630Z",
   },
   {
-    attachments: [
-      {
-        public_id: "asdsad2",
-        url: "https://www.w3schools.com/howto/img_avatar.png",
-      },
-    ],
-    content: "Muksa Thore Message Aayo Hai2",
+    content: " koi karo kiya ho? ",
+    _id: "ndjhndsdurfgvr",
+    sender: {
+      _id: "user._id",
+      name: "Mukesh Choudhary",
+    },
+    chat: "chatId",
+    createdAt: "2024-02-12T10:41:30.630Z",
+  },
+  {
+    content: "roti biche khadi ke ni khadi koi vaniyo to mess me ajj",
+    _id: "ndjhndsdurfgvr",
+    sender: {
+      _id: "user._id",
+      name: "Mukesh Choudhary",
+    },
+    chat: "chatId",
+    createdAt: "2024-02-12T10:41:30.630Z",
+  },
+  {
+    // attachments: [
+    //   {
+    //     public_id: "asdsad2",
+    //     url: "https://www.w3schools.com/howto/img_avatar.png",
+    //   },
+    // ],
+    content: "me to mast hu thu kikan hai ?",
     _id: "ndjhndsdurfgvr2",
     sender: {
       _id: "sdfsdfsdf",
-      name: "muksa",
+      name: "Mukesh Choudhary",
     },
     chat: "chatId2",
     createdAt: "2024-02-12T10:41:30.630Z",
   },
   {
-    attachments: [
-      {
-        public_id: "asdsad",
-        url: "https://www.w3schools.com/howto/img_avatar.png",
-      },
-    ],
-    content: "Muksa Thore Message Aayo Hai",
-    _id: "ndjhndsdurfgvr",
-    sender: {
-      _id: "user._id",
-      name: "muksa",
-    },
-    chat: "chatId",
-    createdAt: "2024-02-12T10:41:30.630Z",
-  },
-  {
-    attachments: [
-      {
-        public_id: "asdsad2",
-        url: "https://www.w3schools.com/howto/img_avatar.png",
-      },
-    ],
-    content: "Muksa Thore Message Aayo Hai2",
+    content: "the roti khadi ke ni khadi ",
     _id: "ndjhndsdurfgvr2",
     sender: {
       _id: "sdfsdfsdf",
-      name: "muksa",
+      name: "Mukesh Choudhary",
     },
     chat: "chatId2",
     createdAt: "2024-02-12T10:41:30.630Z",
   },
   {
-    attachments: [
-      {
-        public_id: "asdsad",
-        url: "https://www.w3schools.com/howto/img_avatar.png",
-      },
-    ],
-    content: "Muksa Thore Message Aayo Hai",
+    // attachments: [
+    //   {
+    //     public_id: "asdsad",
+    //     url: "https://images.bhaskarassets.com/web2images/521/2019/06/22/0521_4_31.jpg",
+    //   },
+    // ],
+    content: "me to  vivha me giyo to jima ne mast majo aai gyo",
     _id: "ndjhndsdurfgvr",
     sender: {
       _id: "user._id",
-      name: "muksa",
+      name: "Mukesh Choudhary",
     },
     chat: "chatId",
     createdAt: "2024-02-12T10:41:30.630Z",
@@ -285,15 +277,79 @@ export const sampleMessage = [
   {
     attachments: [
       {
-        public_id: "asdsad2",
-        url: "https://www.w3schools.com/howto/img_avatar.png",
+        public_id: "asdsad",
+        url: "https://images.bhaskarassets.com/web2images/521/2019/06/22/0521_4_31.jpg",
       },
     ],
-    content: "Muksa Thore Message Aayo Hai2",
+    content: "o dekh photo vivha me mnk kahano khaye jko",
+    _id: "ndjhndsdurfgvr",
+    sender: {
+      _id: "user._id",
+      name: "Mukesh Choudhary",
+    },
+    chat: "chatId",
+    createdAt: "2024-02-12T10:41:30.630Z",
+  },
+  {
+    // attachments: [
+    //   {
+    //     public_id: "asdsad2",
+    //     url: "https://www.w3schools.com/howto/img_avatar.png",
+    //   },
+    // ],
+    content: "Are wha beta the to moj kardi ",
     _id: "ndjhndsdurfgvr2",
     sender: {
       _id: "sdfsdfsdf",
-      name: "muksa",
+      name: "Mukesh Choudhary",
+    },
+    chat: "chatId2",
+    createdAt: "2024-02-12T10:41:30.630Z",
+  },
+  {
+    // attachments: [
+    //   {
+    //     public_id: "asdsad2",
+    //     url: "https://www.w3schools.com/howto/img_avatar.png",
+    //   },
+    // ],
+    content: "mare gre kadi aai la ? ",
+    _id: "ndjhndsdurfgvr2",
+    sender: {
+      _id: "sdfsdfsdf",
+      name: "Mukesh Choudhary",
+    },
+    chat: "chatId2",
+    createdAt: "2024-02-12T10:41:30.630Z",
+  },
+  {
+    // attachments: [
+    //   {
+    //     public_id: "asdsad",
+    //     url: "https://www.w3schools.com/howto/img_avatar.png",
+    //   },
+    // ],
+    content: "Sunday ne aau riyo hu maja karo vivha me jo ",
+    _id: "ndjhndsdurfgvr",
+    sender: {
+      _id: "user._id",
+      name: "Mukesh Choudhary",
+    },
+    chat: "chatId",
+    createdAt: "2024-02-12T10:41:30.630Z",
+  },
+  {
+    // attachments: [
+    //   {
+    //     public_id: "asdsad2",
+    //     url: "https://www.w3schools.com/howto/img_avatar.png",
+    //   },
+    // ],
+    content: "haa tu jaat aau ro 😊❤",
+    _id: "ndjhndsdurfgvr2",
+    sender: {
+      _id: "sdfsdfsdf",
+      name: "Mukesh Choudhary",
     },
     chat: "chatId2",
     createdAt: "2024-02-12T10:41:30.630Z",

@@ -1,4 +1,3 @@
-import React from "react";
 import { Avatar, Stack, Typography } from "@mui/material";
 import {
   Face as FaceIcon,
@@ -14,13 +13,15 @@ const Profile = () => {
       alignItems={"center"}
       overflow={"auto"}
       height={"100%"}
+      sx={{
+        "&::-webkit-scrollbar": { width: "0px" },
+      }}
     >
       <Avatar
         sx={{
           width: "12rem",
           height: "12rem",
           objectFit: "contain",
-          //   marginBottom: "1rem",
           border: "2px solid white",
         }}
       />
@@ -51,7 +52,6 @@ const ProfileCard = ({ text, Icon, heading }) => (
   <Stack
     direction={"column"}
     alignItems={"center"}
-    // spacing={"1rem"}
     color={"white"}
     textAlign={"center"}
   >

@@ -1,13 +1,25 @@
 import React from "react";
 import Applayout from "../components/layout/Applayout";
 import { Box, Typography } from "@mui/material";
-
+import ForumIcon from "@mui/icons-material/Forum";
 const Home = () => {
   return (
-    <Box bgcolor={"gray"} height={"100%"}>
-      <Typography padding={"2rem"} variant="h5" textAlign={"center"}>
-        Select a friend to Chat
-      </Typography>
+    <Box
+      bgcolor={"rgb(242, 242, 242) "}
+      height={"100%"}
+      display={"flex"}
+      flexDirection={"column"}
+      alignItems={"center"}
+      justifyContent={"center"}
+    >
+      <ForumIcon
+        sx={{
+          height: "10rem",
+          width: "10rem",
+        }}
+      />
+      <Typography variant="h2">BaatKarlo</Typography>
+      <Typography variant="h6">Select a friend to Chat...</Typography>
     </Box>
   );
 };

@@ -22,12 +22,15 @@ const Chat = () => {
         ref={containerRef}
         boxSizing={"border-box"}
         padding={"1rem"}
-        // bgcolor={grayColor}
-        bgcolor={"pink"}
+        bgcolor={grayColor}
+        // bgcolor={"rgb(242, 242, 242)"}
         height={"90%"}
         sx={{
           overflowX: "hidden",
           overflowY: "auto",
+          "&::-webkit-scrollbar": { width: "3px" },
+          "&::-webkit-scrollbar-track": { background: "#f1f1f1" },
+          "&::-webkit-scrollbar-thumb": { background: "#888" },
         }}
         spacing={"1rem"}
       >
@@ -43,14 +46,15 @@ const Chat = () => {
         <Stack
           direction={"row"}
           height={"100%"}
-          padding={"1rem"}
+          padding={"0.45rem"}
           alignItems={"center"}
           position={"relative"}
+          bgcolor={"rgba(100, 124, 141, 1)"}
         >
           <IconButton
             sx={{
               position: "absolute",
-              left: "1.5rem",
+              left: "1.2rem",
               rotate: "30deg",
             }}
           >
@@ -60,12 +64,12 @@ const Chat = () => {
           <IconButton
             type="submit"
             sx={{
-              bgcolor: orange,
+              bgcolor: "rgb(52, 152, 219)",
               color: "white",
               marginLeft: "1rem",
               padding: "0.6rem",
               "&:hover": {
-                bgcolor: "error.dark",
+                bgcolor: "rgb(52, 152, 219,0.5)",
               },
             }}
           >

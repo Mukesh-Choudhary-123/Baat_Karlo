@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { Suspense, lazy, useState } from "react";
-import { orange } from "../../constants/color";
 import {
   Menu as MenuIcon,
   Search as SearchIcon,
@@ -16,6 +15,7 @@ import {
   Group as GroupIcon,
   Logout as LogoutIcon,
   Notifications as NotificationsIcon,
+  Forum as LogoIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -41,6 +41,7 @@ const Header = () => {
     setIsNewGroup((prev) => !prev);
   };
   const naviageToGroup = () => navigate("/groups");
+  const naviageToHome = () => navigate("/");
   const logoutHandler = () => {};
   const OpenNotification = () => {
     setIsNotification((prev) => !prev);
@@ -52,16 +53,27 @@ const Header = () => {
         <AppBar
           position="static"
           sx={{
-            bgcolor: orange,
+            bgcolor: "rgb(52, 152, 219)",
           }}
         >
           <Toolbar>
-            <Typography
-              variant="h6"
-              sx={{ display: { xs: "none", sm: "block" } }}
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
             >
-              Baat Karlo
-            </Typography>
+              <LogoIcon
+                sx={{ display: { xs: "none", sm: "block" } }}
+                onClick={naviageToHome}
+              />
+              <Typography
+                variant="h7"
+                sx={{ display: { xs: "none", sm: "block" } }}
+              >
+                Baat Karlo
+              </Typography>
+            </Box>
 
             <Box
               sx={{
