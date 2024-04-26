@@ -46,7 +46,6 @@ const Header = () => {
   const OpenNotification = () => {
     setIsNotification((prev) => !prev);
   };
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }} height={"4rem"}>
@@ -86,7 +85,6 @@ const Header = () => {
             </Box>
 
             <Box sx={{ flexGrow: 1 }} />
-
             <Box>
               <IconBtn
                 title={"Search"}

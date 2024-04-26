@@ -6,11 +6,11 @@ const schema = new Schema(
     attachments: [
       {
         public_id: {
-          type: string,
+          type: String,
           required: true,
         },
         url: {
-          type: string,
+          type: String,
           required: true,
         },
       },
