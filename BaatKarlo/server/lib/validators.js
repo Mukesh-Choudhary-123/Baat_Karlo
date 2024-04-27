@@ -18,7 +18,6 @@ const registerValidator = () => [
   body("username", "Please Enter Username").notEmpty(),
   body("password", "Please Enter Password").notEmpty(),
   body("bio", "Please Enter Bio").notEmpty(),
-  check("avatar", "Please Upload Avatar").notEmpty(),
 ];
 
 const loginValidator = () => [
@@ -55,11 +54,6 @@ const leaveGroupValidator = () => [
 
 const sendAttachmentsValidator = () => [
   body("chatId", "Please Enter Chat ID").notEmpty(),
-  check("files")
-    .notEmpty()
-    .withMessage("Please Upload Attachments")
-    .isArray({ min: 1, max: 5 })
-    .withMessage("Attachments must be 1-5"),
 ];
 
 const getMessagesValidator = () => [
@@ -82,6 +76,7 @@ const deleteChatValidator = () => [
 const sendFriendRequestValidator = () => [
   body("userId", "Please Enter User ID").notEmpty(),
 ];
+
 const acceptFriendRequestValidator = () => [
   body("requestId", "Please Enter Request ID").notEmpty(),
   body("accept")
@@ -89,6 +84,10 @@ const acceptFriendRequestValidator = () => [
     .withMessage("Please Add Accept")
     .isBoolean()
     .withMessage("Accept must be boolean"),
+];
+
+const adminLoginValidator = () => [
+  body("secretKey", "Please Enter secret Key").notEmpty(),
 ];
 
 export {
@@ -106,4 +105,5 @@ export {
   deleteChatValidator,
   sendFriendRequestValidator,
   acceptFriendRequestValidator,
+  adminLoginValidator,
 };

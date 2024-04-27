@@ -242,6 +242,9 @@ const sendAttachments = TryCatch(async (req, res, next) => {
   if (files.length < 1)
     return next(new ErrorHandler("Please provide attchments", 404));
 
+  if (files.length > 5)
+    return next(new ErrorHandler("Files Can't be more than 5", 404));
+
   const attchments = [];
 
   const messageForDB = {
