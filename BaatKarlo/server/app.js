@@ -11,6 +11,9 @@ import chatRoute from "./routes/chat.js";
 import adminRoute from "./routes/admin.js";
 import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
 import { getSockets } from "./lib/helper.js";
+import { Message } from "./models/message.js";
+import cors from "cors";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config({
   path: "./.env",
@@ -24,7 +27,11 @@ const userSocketIDs = new Map();
 
 connectDB(mongoURI);
 
-// createUser(10);
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 const server = createServer(app);
@@ -33,10 +40,20 @@ const io = new Server(server, {});
 //Use Middlewares Here
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:8000",
+      process.env.CLIENT_URL,
+    ],
+    credentials: true,
+  })
+);
 
-app.use("/user", useRoute);
-app.use("/chat", chatRoute);
-app.use("/admin", adminRoute);
+app.use("/api/v1/user", useRoute);
+app.use("/api/v1/chat", chatRoute);
+app.use("/api/v1/admin", adminRoute);
 
 app.get("/", (req, res) => {
   res.send("Home Page");
@@ -49,7 +66,7 @@ io.on("connection", (socket) => {
   };
   userSocketIDs.set(user._id.toString(), socket.id);
 
-  console.log(userSocketIDs);
+  // console.log(userSocketIDs);
   // console.log("a user connected", socket.id);
 
   socket.on(NEW_MESSAGE, async ({ chatId, members, message }) => {
@@ -76,7 +93,11 @@ io.on("connection", (socket) => {
       message: messageForRealTime,
     });
     io.to(membersSocket).emit(NEW_MESSAGE_ALERT, { chatId });
-    console.log("NEW MESSAGE", messageForRealTime);
+    try {
+      await Message.create(messageForDB);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   socket.on("disconnect", () => {

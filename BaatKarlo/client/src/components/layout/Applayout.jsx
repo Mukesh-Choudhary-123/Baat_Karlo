@@ -1,16 +1,20 @@
 import React from "react";
 import Header from "./Header";
 import Title from "../shared/Title";
-import { Grid } from "@mui/material";
+import { Grid, Skeleton } from "@mui/material";
 import ChatList from "../specific/ChatList";
 import { sampleChats } from "../../constants/sampleData";
 import { useParams } from "react-router-dom";
 import Profile from "../specific/Profile";
+import { useMyChatsQuery } from "../../redux/api/api";
 
 const Applayout = () => (WrappedComponent) => {
   return (props) => {
     const params = useParams();
     const chatId = params.chatId;
+
+    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
+
     const handleDeleteChat = (e, _id, groupChat) => {
       e.preventDefault();
     };
@@ -26,11 +30,15 @@ const Applayout = () => (WrappedComponent) => {
             sx={{ display: { xs: "none", sm: "block" } }}
             height={"100%"}
           >
-            <ChatList
-              chats={sampleChats}
-              chatId={chatId}
-              handleDeleteChat={handleDeleteChat}
-            />
+            {isLoading ? (
+              <Skeleton />
+            ) : (
+              <ChatList
+                chats={data?.chats}
+                chatId={chatId}
+                handleDeleteChat={handleDeleteChat}
+              />
+            )}
           </Grid>
           <Grid item xs={12} sm={8} md={5} lg={6} height={"100%"}>
             <WrappedComponent {...props} />

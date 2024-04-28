@@ -18,6 +18,11 @@ import {
   Forum as LogoIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { server } from "../../constants/config";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { userNotExists } from "../../redux/reducers/auth";
 
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotificationDilog = lazy(() => import("../specific/Notifications"));
@@ -25,7 +30,7 @@ const NewGroupDailog = lazy(() => import("../specific/NewGroup"));
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [isNewGroup, setIsNewGroup] = useState(false);
@@ -42,9 +47,19 @@ const Header = () => {
   };
   const naviageToGroup = () => navigate("/groups");
   const naviageToHome = () => navigate("/");
-  const logoutHandler = () => {};
   const OpenNotification = () => {
     setIsNotification((prev) => !prev);
+  };
+  const logoutHandler = async () => {
+    try {
+      const { data } = await axios.get(`${server}/api/v1/user/logout`, {
+        withCredentials: true,
+      });
+      dispatch(userNotExists());
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went Wrong");
+    }
   };
   return (
     <>

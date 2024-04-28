@@ -2,23 +2,29 @@ import { compare } from "bcrypt";
 import { User } from "../models/user.js";
 import { Chat } from "../models/chat.js";
 import { Request } from "../models/request.js";
-import { cookieOption, emitEvent, sendToken } from "../utils/features.js";
+import {
+  cookieOption,
+  emitEvent,
+  sendToken,
+  uploadFilesToCloudinary,
+} from "../utils/features.js";
 import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { NEW_REQUEST, REFETCH_CHAT } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
-import { fi } from "@faker-js/faker";
 
 const newUser = TryCatch(async (req, res, next) => {
   const { name, username, password, bio } = req.body;
 
   const file = req.file;
-
+  console.count("checking");
   if (!file) return next(new ErrorHandler("please Upload Avatar"));
 
+  const result = await uploadFilesToCloudinary([file]);
+  // console.log(result, "resutl");
   const avatar = {
-    public_id: "sddfgsa",
-    url: "asdasdf",
+    public_id: result[0].public_id,
+    url: result[0].url,
   };
 
   const user = await User.create({
