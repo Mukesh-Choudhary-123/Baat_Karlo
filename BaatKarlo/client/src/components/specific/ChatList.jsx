@@ -27,9 +27,6 @@ const ChatList = ({
         const newMessageAlert = newMessagesAlert.find(
           ({ chatId }) => chatId === _id
         );
-        // const newMessageAlert = Array.isArray(newMessagesAlert)
-        //   ? newMessagesAlert.find(({ chatId }) => chatId === _id)
-        //   : null;
 
         const isOnline = members?.some((member) => onlineUsers.includes(_id));
         return (

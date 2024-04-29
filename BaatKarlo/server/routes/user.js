@@ -47,7 +47,7 @@ app.put(
   acceptFriendRequest
 );
 
-app.get("/notification", getAllNotification);
+app.get("/notifications", getAllNotification);
 
 app.get("/friends", getMyFriends);
 
