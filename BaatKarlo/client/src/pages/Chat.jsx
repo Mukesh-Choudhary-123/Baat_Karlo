@@ -43,6 +43,7 @@ const Chat = ({ chatId, user }) => {
   const [userTyping, setUserTyping] = useState(false);
   const typingTimeout = useRef(null);
 
+  console.log(chatId, "AWErfawefaer");
   const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
 
   const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
@@ -105,8 +106,8 @@ const Chat = ({ chatId, user }) => {
   }, [chatDetails.data]);
 
   // useEffect(() => {
-  //   if (!chatDetails.isError) return navigate("/");
-  // }, [chatDetails.isError]);
+  //   if (!chatDetails) return navigate("/");
+  // }, [chatDetails]);
 
   useEffect(() => {
     if (bottomRef.current)

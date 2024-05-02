@@ -20,11 +20,9 @@ const UserManagement = lazy(() => import("./pages/admin/UserManagement"));
 const ChatManagement = lazy(() => import("./pages/admin/ChatManagement"));
 const MessageManagement = lazy(() => import("./pages/admin/MessageManagement"));
 
-// let user = true;
-
 function App() {
   const { user, loader } = useSelector((state) => state.auth);
-
+  console.log(user, "APP APP APP");
   const dispatch = useDispatch();
 
   useEffect(() => {

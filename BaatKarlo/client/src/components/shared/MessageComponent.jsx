@@ -11,7 +11,8 @@ const MessageComponent = ({ message, user }) => {
   const sameSender = sender?._id === user?._id;
   const timeAgo = moment(createdAt).fromNow();
   return (
-    <motion.div
+    // <motion.div
+    <div
       initial={{ opacity: 0, x: "-100%" }}
       whileInView={{ opacity: 1, x: 0 }}
       style={{
@@ -51,7 +52,8 @@ const MessageComponent = ({ message, user }) => {
       <Typography variant="caption" color={"text.secondary"}>
         {timeAgo}
       </Typography>
-    </motion.div>
+      {/* </motion.div> */}
+    </div>
   );
 };
 

@@ -35,20 +35,19 @@ const Applayout = () => (WrappedComponent) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const socket = getSocket();
+    console.log(params, "PARAMS apploay");
 
     const chatId = params.chatId;
     const deleteMenuAnchor = useRef(null);
-
+    console.log(chatId, "AWErfawefaer");
     const [onlineUsers, setOnlineUsers] = useState([]);
 
     const { isMobileMenuFriend } = useSelector((state) => state.misc);
     const { user } = useSelector((state) => state.auth);
     const { newMessagesAlert } = useSelector((state) => state.chat);
 
-    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
-
-    // console.log(data);
-
+    const { isLoading, data, isError, error, refetch } = useMyChatsQuery;
+    console.log(data);
     useErrors([{ isError, error }]);
 
     useEffect(() => {
@@ -98,10 +97,10 @@ const Applayout = () => (WrappedComponent) => {
       <>
         <Title />
         <Header />
-        <DeleteChatMenu
+        {/* <DeleteChatMenu
           dispatch={dispatch}
           deleteMenuAnchor={deleteMenuAnchor}
-        />
+        /> */}
         {isLoading ? (
           <Skeleton />
         ) : (
