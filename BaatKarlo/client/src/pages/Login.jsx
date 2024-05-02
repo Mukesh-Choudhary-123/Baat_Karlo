@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useFileHandler, useInputValidation } from "6pp";
+import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -9,18 +10,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
-import { VisuallyHiddenInput } from "../components/styles/styledComponents";
-import { useFileHandler, useInputValidation } from "6pp";
-import { usernameValidator } from "../utils/validators";
 import axios from "axios";
-import { server } from "../constants/config";
-import { useDispatch } from "react-redux";
-import { userExists } from "../redux/reducers/auth";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { VisuallyHiddenInput } from "../components/styles/styledComponents";
+import { server } from "../constants/config";
+import { userExists } from "../redux/reducers/auth";
+import { usernameValidator } from "../utils/validators";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const toggleLogin = () => {
     setIsLogin((prev) => !prev);
   };
@@ -35,6 +38,10 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const toastId = toast.loading("Logging In...");
+
+    setIsLoading(true);
     const config = {
       withCredentials: true,
       headers: {
@@ -50,14 +57,25 @@ const Login = () => {
         },
         config
       );
-      dispatch(userExists(true));
-      toast.success(data.message);
+      dispatch(userExists(data.user));
+      toast.success(data.message, { id: toastId });
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong");
+      toast.error(error?.response?.data?.message || "Something Went Wrong", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+
+    const toastId = toast.loading("signing Up...");
+
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append("avatar", avatar.file);
@@ -79,10 +97,14 @@ const Login = () => {
         formData,
         config
       );
-      dispatch(userExists(true));
-      toast.success(data.message);
+      dispatch(userExists(data.user));
+      toast.success(data.message), { id: toastId };
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong");
+      toast.error(error?.response?.data?.message || "Something Went Wrong", {
+        id: toastId,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -147,13 +169,19 @@ const Login = () => {
                   type="submit"
                   fullWidth
                   sx={{ mt: 2 }}
+                  disabled={isLoading}
                 >
                   Login
                 </Button>
                 <Typography textAlign={"center"} m={"1rem"}>
                   OR
                 </Typography>
-                <Button fullWidth variant="text" onClick={toggleLogin}>
+                <Button
+                  fullWidth
+                  variant="text"
+                  onClick={toggleLogin}
+                  disabled={isLoading}
+                >
                   Sign Up Instead
                 </Button>
               </form>
@@ -261,13 +289,19 @@ const Login = () => {
                   type="submit"
                   fullWidth
                   sx={{ mt: 2 }}
+                  disabled={isLoading}
                 >
                   Sign Up
                 </Button>
                 <Typography textAlign={"center"} m={"1rem"}>
                   OR
                 </Typography>
-                <Button fullWidth variant="text" onClick={toggleLogin}>
+                <Button
+                  fullWidth
+                  variant="text"
+                  onClick={toggleLogin}
+                  disabled={isLoading}
+                >
                   Login Instead
                 </Button>
               </form>

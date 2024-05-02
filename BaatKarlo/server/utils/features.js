@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { v4 as uuid } from "uuid";
 import { v2 as cloudinary } from "cloudinary";
-import { getBase64 } from "../lib/helper.js";
+import { getBase64, getSockets } from "../lib/helper.js";
 
 const cookieOption = {
   maxAge: 15 * 24 * 60 * 60 * 1000,
@@ -25,12 +25,15 @@ const sendToken = (res, user, code, message) => {
 
   return res.status(code).cookie("baatkarlo-token", token, cookieOption).json({
     success: true,
+    user,
     message,
   });
 };
 
 const emitEvent = (req, event, users, data) => {
-  console.log("Emiiting Event", event);
+  const io = req.app.get("io");
+  const userSocket = getSockets(users);
+  io.to(userSocket).emit(event, data);
 };
 
 const uploadFilesToCloudinary = async (files = []) => {

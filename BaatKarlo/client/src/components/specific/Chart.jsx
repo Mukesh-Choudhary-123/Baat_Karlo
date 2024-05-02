@@ -59,8 +59,8 @@ const LineChart = ({ value = [] }) => {
         data: value,
         label: "Last Messages",
         fill: true,
-        backgroundColor: "pink",
-        borderColor: "orange",
+        backgroundColor: "lightgray",
+        borderColor: "black",
       },
     ],
   };
@@ -84,8 +84,8 @@ const DoughnutChart = ({ value = [], labels = [] }) => {
       {
         data: value,
         label: "Total Chats vs Group Chats",
-        backgroundColor: ["pink", "orange"],
-        // borderColor: ["purple", "blue"],
+        backgroundColor: ["lightgray", "lightgray"],
+        borderColor: ["black", "black"],
         offset: 10,
       },
     ],

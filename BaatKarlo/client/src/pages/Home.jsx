@@ -1,7 +1,7 @@
+import ForumIcon from "@mui/icons-material/Forum";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import Applayout from "../components/layout/Applayout";
-import { Box, Typography } from "@mui/material";
-import ForumIcon from "@mui/icons-material/Forum";
 const Home = () => {
   return (
     <Box

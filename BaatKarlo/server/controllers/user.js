@@ -67,7 +67,7 @@ const logout = TryCatch(async (req, res) => {
     .cookie("baatkarlo-token", "", { ...cookieOption, maxAge: 0 })
     .json({
       success: true,
-      messsage: "Logged out successfully",
+      message: "Logged out successfully",
     });
 });
 
@@ -115,16 +115,16 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
 
   return res.status(200).json({
     success: true,
-    messsage: "Request send successfully",
+    message: "Request send successfully",
   });
 });
 
 const acceptFriendRequest = TryCatch(async (req, res, next) => {
   const { requestId, accept } = req.body;
-  const request = await Request.findById(requestId)
-    .populate("sender", "name")
-    .populate("receiver", "name");
-  console.log(request, "2");
+  const request = await Request.findById(requestId);
+  // .populate("sender", "name");
+  // .populate("receiver", "name");
+  // console.log(request, "yugytyfgty");
   if (!request) return next(new ErrorHandler("Request not found", 404));
 
   if (request.receiver._id.toString() !== req.user.toString())
@@ -135,11 +135,11 @@ const acceptFriendRequest = TryCatch(async (req, res, next) => {
     await request.deleteOne();
     return res.status(200).json({
       success: true,
-      messsage: "Friend Request Rejected",
+      message: "Friend Request Rejected",
     });
   }
 
-  console.log(request);
+  // console.log(request);
   const members = [request.sender._id, request.receiver._id];
   await Promise.all([
     Chat.create({
@@ -153,7 +153,7 @@ const acceptFriendRequest = TryCatch(async (req, res, next) => {
 
   return res.status(200).json({
     success: true,
-    messsage: "Friends Request Accepted",
+    message: "Friends Request Accepted",
     senderId: request.sender._id,
   });
 });

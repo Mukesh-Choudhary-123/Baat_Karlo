@@ -6,14 +6,24 @@ import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { v4 as uuid } from "uuid";
-import useRoute from "./routes/user.js";
-import chatRoute from "./routes/chat.js";
-import adminRoute from "./routes/admin.js";
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
+import {
+  CHAT_JOINED,
+  CHAT_LEAVED,
+  NEW_MESSAGE,
+  NEW_MESSAGE_ALERT,
+  ONLINE_USERS,
+  START_TYPING,
+  STOP_TYPING,
+} from "./constants/events.js";
 import { getSockets } from "./lib/helper.js";
 import { Message } from "./models/message.js";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
+import { corsOption } from "./constants/config.js";
+import { socketAuthenticator } from "./middlewares/auth.js";
+import useRoute from "./routes/user.js";
+import chatRoute from "./routes/chat.js";
+import adminRoute from "./routes/admin.js";
 
 dotenv.config({
   path: "./.env",
@@ -24,6 +34,7 @@ const port = process.env.PORT || 3000;
 const envMode = process.env.NODE_ENV || "PRODUCTION";
 const adminSecretKey = process.env.ADMIN_SECRET_KEY || "BaatKarlo";
 const userSocketIDs = new Map();
+const onlineUsers = new Set();
 
 connectDB(mongoURI);
 
@@ -35,21 +46,14 @@ cloudinary.config({
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server, {});
+const io = new Server(server, { cors: corsOption });
+
+app.set("io", io);
 
 //Use Middlewares Here
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:8000",
-      process.env.CLIENT_URL,
-    ],
-    credentials: true,
-  })
-);
+app.use(cors(corsOption));
 
 app.use("/api/v1/user", useRoute);
 app.use("/api/v1/chat", chatRoute);
@@ -59,14 +63,19 @@ app.get("/", (req, res) => {
   res.send("Home Page");
 });
 
+io.use((socket, next) => {
+  cookieParser()(
+    socket.request,
+    socket.request.res,
+    async (err) => await socketAuthenticator(err, socket, next)
+  );
+});
+
 io.on("connection", (socket) => {
-  const user = {
-    _id: "asdsda",
-    name: "asdsdaname",
-  };
+  const user = socket.user;
   userSocketIDs.set(user._id.toString(), socket.id);
 
-  // console.log(userSocketIDs);
+  console.log(userSocketIDs);
   // console.log("a user connected", socket.id);
 
   socket.on(NEW_MESSAGE, async ({ chatId, members, message }) => {
@@ -87,6 +96,8 @@ io.on("connection", (socket) => {
       chat: chatId,
     };
 
+    console.log("Emmiting", messageForRealTime);
+
     const membersSocket = getSockets(members);
     io.to(membersSocket).emit(NEW_MESSAGE, {
       chatId,
@@ -100,9 +111,33 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on(START_TYPING, ({ members, chatId }) => {
+    const membersSockets = getSockets(members);
+    socket.to(membersSockets).emit(START_TYPING, { chatId });
+  });
+
+  socket.on(STOP_TYPING, ({ members, chatId }) => {
+    const membersSockets = getSockets(members);
+    socket.to(membersSockets).emit(STOP_TYPING, { chatId });
+  });
+
+  socket.on(CHAT_JOINED, ({ userId, members }) => {
+    onlineUsers.add(userId.toString());
+
+    const membersSocket = getSockets(members);
+    io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
+  });
+
+  socket.on(CHAT_LEAVED, ({ userId, members }) => {
+    onlineUsers.delete(userId.toString());
+    const membersSocket = getSockets(members);
+    io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
+  });
+
   socket.on("disconnect", () => {
-    console.log("user disconnect");
     userSocketIDs.delete(user._id.toString());
+    onlineUsers.delete(user._id.toString());
+    socket.broadcast.emit(ONLINE_USERS, Array.from(onlineUsers));
   });
 });
 

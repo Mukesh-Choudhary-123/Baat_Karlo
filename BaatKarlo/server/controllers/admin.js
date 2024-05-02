@@ -7,7 +7,7 @@ import { ErrorHandler } from "../utils/utility.js";
 import { cookieOption } from "../utils/features.js";
 import { adminSecretKey } from "../app.js";
 
-const adminLogin = TryCatch(async (req, res) => {
+const adminLogin = TryCatch(async (req, res, next) => {
   const { secretKey } = req.body;
 
   const isMatched = secretKey === adminSecretKey;
@@ -104,7 +104,7 @@ const allChats = TryCatch(async (req, res) => {
 
   return res.status(200).json({
     status: "success",
-    users: transformedChats,
+    chats: transformedChats,
   });
 });
 

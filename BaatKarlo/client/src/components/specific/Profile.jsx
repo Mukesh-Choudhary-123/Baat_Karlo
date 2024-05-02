@@ -48,15 +48,17 @@ const Profile = ({ user }) => {
 
 const ProfileCard = ({ text, Icon, heading }) => (
   <Stack
-    direction={"column"}
+    direction={"row"}
     alignItems={"center"}
     color={"white"}
     textAlign={"center"}
   >
     {Icon && Icon}
-    <Stack>
-      <Typography variant="body1">{text}</Typography>
-      <Typography color={"gray"} variant="caption">
+    <Stack marginLeft={"0.6rem"}>
+      <Typography variant="body1" color={"lightblue"}>
+        {text}
+      </Typography>
+      <Typography color={"white"} variant="caption">
         ({heading})
       </Typography>
     </Stack>

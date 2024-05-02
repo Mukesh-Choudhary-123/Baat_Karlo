@@ -1,18 +1,20 @@
+import { useFetchData } from "6pp";
+import { Avatar, Box, Skeleton, Stack } from "@mui/material";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Adminlayout from "../../components/layout/Adminlayout";
-import { Avatar, Box, Stack } from "@mui/material";
-import Table from "../../components/shared/Table";
-import { dashboardData } from "../../constants/sampleData";
-import { fileFormat, transformImage } from "../../lib/features";
 import RenderAttachment from "../../components/shared/RenderAttachment";
-import moment from "moment";
+import Table from "../../components/shared/Table";
+import { server } from "../../constants/config";
+import { useErrors } from "../../hooks/hook";
+import { fileFormat, transformImage } from "../../lib/features";
 
 const columns = [
   {
     field: "id",
     headerName: "ID",
     headerClassName: "table-header",
-    width: 200,
+    width: 250,
   },
   {
     field: "attachments",
@@ -81,30 +83,43 @@ const columns = [
 ];
 
 const MessageManagement = () => {
+  const { loading, data, error } = useFetchData(
+    `${server}/api/v1/admin/messages`,
+    "dashboard-messages"
+  );
+  console.log(data);
+
+  useErrors([{ isError: error, error: error }]);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    setRows(
-      dashboardData.messages.map((i) => ({
-        ...i,
-        id: i._id,
-        sender: {
-          name: i.sender.name,
-          avatar: transformImage(i.sender.avatar, 50),
-        },
-        createdAt: moment(i.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
-      }))
-    );
-  }, []);
+    if (data) {
+      setRows(
+        data?.messages.map((i) => ({
+          ...i,
+          id: i._id,
+          sender: {
+            name: i.sender.name,
+            avatar: transformImage(i.sender.avatar, 50),
+          },
+          createdAt: moment(i.createdAt).format("MMMM Do YYYY, h:mm:ss a"),
+        }))
+      );
+    }
+  }, [data]);
 
   return (
     <Adminlayout>
-      <Table
-        heading={"All Messages"}
-        columns={columns}
-        rows={rows}
-        rowHeight={180}
-      />
+      {loading ? (
+        <Skeleton height={"100vh"} />
+      ) : (
+        <Table
+          heading={"All Messages"}
+          columns={columns}
+          rows={rows}
+          rowHeight={180}
+        />
+      )}
     </Adminlayout>
   );
 };

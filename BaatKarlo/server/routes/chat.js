@@ -57,7 +57,7 @@ app.post(
   sendAttachments
 );
 
-app.get("message/:id", getMessagesValidator(), vaildateHandler, getMessages);
+app.get("/message/:id", getMessagesValidator(), vaildateHandler, getMessages);
 
 app
   .route("/:id")

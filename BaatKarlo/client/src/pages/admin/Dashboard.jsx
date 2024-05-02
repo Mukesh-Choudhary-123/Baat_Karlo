@@ -1,6 +1,4 @@
-import React from "react";
-import Adminlayout from "../../components/layout/Adminlayout";
-import { Box, Container, Paper, Stack, Typography } from "@mui/material";
+import { useFetchData } from "6pp";
 import {
   AdminPanelSettings,
   Group,
@@ -8,14 +6,42 @@ import {
   Notifications,
   Person,
 } from "@mui/icons-material";
-import moment from "moment";
 import {
-  SearchField,
-  CurveButton,
-} from "../../components/styles/styledComponents";
+  Box,
+  Container,
+  Paper,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import Adminlayout from "../../components/layout/Adminlayout";
+import { LayoutLoader } from "../../components/layout/Loaders";
 import { DoughnutChart, LineChart } from "../../components/specific/Chart";
+import {
+  CurveButton,
+  SearchField,
+} from "../../components/styles/styledComponents";
+import { server } from "../../constants/config";
+import { useErrors } from "../../hooks/hook";
 
 const Dashboard = () => {
+  const { loading, data, error } = useFetchData(
+    `${server}/api/v1/admin/stats`,
+    "dashboard-stats"
+  );
+  const [stats, setStats] = useState(null);
+
+  console.log(data);
+  useEffect(() => {
+    if (data) {
+      setStats(data.messages);
+    }
+  }, [data]);
+
+  useErrors([{ isError: error, error: error }]);
+
   const Appbar = (
     <Paper
       elevation={2}
@@ -55,82 +81,93 @@ const Dashboard = () => {
       justifyContent={"space-between"}
       margin={"1rem 0"}
     >
-      <Widget title={"Users"} value={30} Icon={<Person />} />
-      <Widget title={"Chats"} value={20} Icon={<Group />} />
-      <Widget title={"Message"} value={320} Icon={<Message />} />
+      <Widget title={"Users"} value={stats?.usersCount} Icon={<Person />} />
+      <Widget title={"Chats"} value={stats?.totalChatsCount} Icon={<Group />} />
+      <Widget
+        title={"Message"}
+        value={stats?.messagesCount}
+        Icon={<Message />}
+      />
     </Stack>
   );
 
   return (
     <Adminlayout>
-      <Container component={"main"}>
-        {Appbar}
+      {loading ? (
+        <Skeleton height={"100vh"} />
+      ) : (
+        <Container component={"main"}>
+          {Appbar}
 
-        <Stack
-          direction={{
-            xs: "column",
-            lg: "row",
-          }}
-          flexWrap={"wrap"}
-          // justifyContent={"center"}
-          alignItems={{
-            xs: "center",
-            lg: "stretch",
-          }}
-          sx={{
-            gap: "1rem",
-          }}
-        >
-          <Paper
-            elevation={3}
+          <Stack
+            direction={{
+              xs: "column",
+              lg: "row",
+            }}
+            flexWrap={"wrap"}
+            // justifyContent={"center"}
+            alignItems={{
+              xs: "center",
+              lg: "stretch",
+            }}
             sx={{
-              padding: "1rem",
-              borderRadius: "1rem",
-              width: "100%",
-              maxWidth: "35rem",
-              height: "22rem",
+              gap: "1rem",
             }}
           >
-            <Typography margin={"1rem 1rem"} variant="h5">
-              Last Messages
-            </Typography>
-            <LineChart value={[0, 15, 5, 0, 23, 5, 0]} />
-          </Paper>
-          <Paper
-            elevation={3}
-            sx={{
-              padding: "1rem",
-              borderRadius: "1rem",
-              width: "100%",
-              height: "22rem",
-              maxWidth: "20rem",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              position: "relative",
-              width: { xs: "100%", sm: "50%" },
-            }}
-          >
-            <DoughnutChart
-              labels={["Single Chats", "Group Chats"]}
-              value={[23, 66]}
-            />
-            <Stack
-              position={"absolute"}
-              direction={"row"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              spacing={"0.5rem"}
-              width={"100%"}
-              height={"100%"}
+            <Paper
+              elevation={3}
+              sx={{
+                padding: "1rem",
+                borderRadius: "1rem",
+                width: "100%",
+                maxWidth: "35rem",
+                height: "22rem",
+              }}
             >
-              <Group /> <Typography>Vs</Typography>
-              <Person />
-            </Stack>
-          </Paper>
-        </Stack>
-        {Widgets}
-      </Container>
+              <Typography margin={"1rem 1rem"} variant="h5">
+                Last Messages
+              </Typography>
+              <LineChart value={stats?.messagesChart || []} />
+            </Paper>
+            <Paper
+              elevation={3}
+              sx={{
+                padding: "1rem",
+                borderRadius: "1rem",
+                width: "100%",
+                height: "22rem",
+                maxWidth: "20rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
+              <DoughnutChart
+                labels={["Single Chats", "Group Chats"]}
+                value={[
+                  stats?.totalChatsCount - stats?.groupsCount || 0,
+                  stats?.groupsCount || 0,
+                ]}
+              />
+              <Stack
+                position={"absolute"}
+                direction={"row"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                spacing={"0.5rem"}
+                width={"100%"}
+                height={"100%"}
+              >
+                <Group /> <Typography>Vs</Typography>
+                <Person />
+              </Stack>
+            </Paper>
+          </Stack>
+          {Widgets}
+        </Container>
+      )}
     </Adminlayout>
   );
 };
