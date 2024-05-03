@@ -116,7 +116,6 @@ const addMembers = TryCatch(async (req, res, next) => {
     return next(new ErrorHandler("you are not allowed to add members", 403));
 
   const allMembersPromise = members.map((i) => User.findById(i, "name"));
-  console.log("allMembersPromise", allMembersPromise);
 
   const allNewMembers = await Promise.all(allMembersPromise);
 
@@ -347,7 +346,6 @@ const renameGroup = TryCatch(async (req, res, next) => {
 //#region deleteChat
 const deleteChat = TryCatch(async (req, res, next) => {
   const chatId = req.params.id;
-
   const chat = await Chat.findById(chatId);
 
   if (!chat) return next(new ErrorHandler("Chat not found", 404));
@@ -358,7 +356,7 @@ const deleteChat = TryCatch(async (req, res, next) => {
     return next(
       new ErrorHandler("You are not allowed to delete the group", 403)
     );
-  if (!chat.groupChat && chat.members.includes(req.user.toString()))
+  if (chat.groupChat && chat.members.includes(req.user.toString()))
     return next(
       new ErrorHandler("You are not allowed to delete the chat", 403)
     );

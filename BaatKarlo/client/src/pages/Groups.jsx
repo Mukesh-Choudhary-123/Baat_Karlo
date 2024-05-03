@@ -19,6 +19,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import ForumIcon from "@mui/icons-material/Forum";
 import React, { Suspense, lazy, memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -36,6 +37,7 @@ import {
   useRenameGroupMutation,
 } from "../redux/api/api";
 import { setIsAddMember } from "../redux/reducers/misc";
+import { motion } from "framer-motion";
 
 const ConfirmDeleteDialog = lazy(() =>
   import("../components/dialogs/ConfirmDeleteDialog")
@@ -161,8 +163,8 @@ const Groups = () => {
             xs: "block",
             sm: "none",
             position: "fixed",
-            right: "1rem",
-            top: "1rem",
+            left: "1rem",
+            top: "1.1%",
           },
         }}
       >
@@ -273,10 +275,19 @@ const Groups = () => {
             "&::-webkit-scrollbar-thumb": { background: "#888" },
           }}
           sm={3}
-          bgcolor={"white"}
+          bgcolor={"lightgray"}
           textAlign={"center"}
           overflow={"auto"}
         >
+          <Typography
+            fontSize={"1.3rem"}
+            textAlign={"center"}
+            bgcolor={"rgb(52, 152, 219)"}
+            paddingTop={"1rem"}
+            paddingBottom={"1rem"}
+          >
+            All Groups
+          </Typography>
           <GroupsList myGroups={myGroups?.data?.groups} chatId={chatId} />
         </Grid>
         <Grid
@@ -292,7 +303,7 @@ const Groups = () => {
           }}
         >
           {IconBtns}
-          {groupName && (
+          {groupName ? (
             <>
               {GroupName}
               <Typography
@@ -347,6 +358,29 @@ const Groups = () => {
 
               {ButtonGroup}
             </>
+          ) : (
+            <>
+              {" "}
+              <Box
+                // bgcolor={"rgb(242, 242, 242) "}
+                height={"100%"}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <ForumIcon
+                  sx={{
+                    height: "10rem",
+                    width: "10rem",
+                  }}
+                />
+                <Typography variant="h2">BaatKarlo</Typography>
+                <Typography variant="h6">
+                  Select a Group for Manage...
+                </Typography>
+              </Box>
+            </>
           )}
         </Grid>
 
@@ -374,10 +408,23 @@ const Groups = () => {
               xs: "block",
               sm: "none",
             },
+            "&::-webkit-scrollbar": { width: "2px" },
+            "&::-webkit-scrollbar-track": { background: "#f1f1f1" },
+            "&::-webkit-scrollbar-thumb": { background: "#888" },
           }}
         >
+          <Typography
+            fontSize={"1.3rem"}
+            fontWeight={"600"}
+            textAlign={"center"}
+            bgcolor={"rgb(52, 152, 219)"}
+            paddingTop={"1rem"}
+            paddingBottom={"1rem"}
+          >
+            All Groups
+          </Typography>
           <GroupsList
-            w={"50vw"}
+            w={"65vw"}
             myGroups={myGroups?.data?.groups}
             chatId={chatId}
           />
@@ -390,22 +437,28 @@ const Groups = () => {
 //#region GroupsList
 
 const GroupsList = ({ w = "100%", myGroups = [], chatId }) => (
-  <Stack
-    width={w}
-    sx={{
-      height: "100vh",
-    }}
+  <motion.div
+    initial={{ opacity: 0, x: "-100%" }}
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ delay: 0.1 }}
   >
-    {myGroups.length > 0 ? (
-      myGroups.map((group) => (
-        <GroupListItem group={group} chatId={chatId} key={group._id} />
-      ))
-    ) : (
-      <Typography textAlign={"center"} padding={"1rem"}>
-        No Groups
-      </Typography>
-    )}
-  </Stack>
+    <Stack
+      width={w}
+      sx={{
+        height: "100vh",
+      }}
+    >
+      {myGroups.length > 0 ? (
+        myGroups.map((group) => (
+          <GroupListItem group={group} chatId={chatId} key={group._id} />
+        ))
+      ) : (
+        <Typography textAlign={"center"} padding={"1rem"}>
+          No Groups
+        </Typography>
+      )}
+    </Stack>
+  </motion.div>
 );
 
 //#region GroupListItem
@@ -422,7 +475,7 @@ const GroupListItem = memo(({ group, chatId }) => {
     >
       <Stack direction={"row"} alignItems={"center"}>
         <AvatarCard avatar={avatar} />
-        <Typography>{name}</Typography>
+        <Typography paddingLeft={"1rem"}>{name}</Typography>
       </Stack>
     </Link>
   );

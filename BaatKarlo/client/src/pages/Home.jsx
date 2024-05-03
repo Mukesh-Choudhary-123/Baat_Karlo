@@ -25,3 +25,5 @@ const Home = () => {
 };
 
 export default Applayout()(Home);
+// const HomeWithLayout = Applayout(Home);
+// export default HomeWithLayout;

@@ -1,6 +1,13 @@
 import React from "react";
 import { Stack } from "@mui/material";
 import ChatItem from "../shared/ChatItem";
+
+//
+//
+////++++++++++++++++++ Contact's List +++++++++++++++++++++++++//
+//
+//
+
 const ChatList = ({
   w = "100%",
   chats = [],
@@ -28,7 +35,10 @@ const ChatList = ({
           ({ chatId }) => chatId === _id
         );
 
-        const isOnline = members?.some((member) => onlineUsers.includes(_id));
+        // const isOnline = members?.some((member) => onlineUsers.includes(_id));
+        const isOnline = members?.some((member) =>
+          onlineUsers.includes(member)
+        );
         return (
           <ChatItem
             index={index}

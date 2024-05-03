@@ -1,9 +1,17 @@
 import { useInputValidation } from "6pp";
-import { Button, Container, Paper, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { adminLogin, getAdmin } from "../../redux/thunks/admin";
+import ForumIcon from "@mui/icons-material/Forum";
 
 const AdminLogin = () => {
   const { isAdmin } = useSelector((state) => state.auth);
@@ -41,17 +49,42 @@ const AdminLogin = () => {
         <Paper
           elevation={3}
           sx={{
-            padding: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">Admin Login</Typography>
+          <Stack
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              bgcolor: "rgb(52, 152, 219)",
+              width: "100%",
+              padding: 4,
+            }}
+          >
+            <ForumIcon
+              sx={{
+                color: "white",
+                height: "4rem",
+                width: "4rem",
+              }}
+            />
+            <Typography variant="h4" color={"white"}>
+              BaatKarlo
+            </Typography>
+            <Typography variant="h7" color={"white"}>
+              Chat App
+            </Typography>
+          </Stack>
+          <Typography variant="h5" paddingTop={"1.4rem"} fontStyle={"oblique"}>
+            Admin Login
+          </Typography>
           <form
             style={{
               width: "100%",
-              marginTop: "1rem",
+              padding: "2rem",
             }}
             onSubmit={submitHandler}
           >

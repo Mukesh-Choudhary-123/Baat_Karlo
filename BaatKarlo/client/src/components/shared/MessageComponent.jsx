@@ -11,8 +11,8 @@ const MessageComponent = ({ message, user }) => {
   const sameSender = sender?._id === user?._id;
   const timeAgo = moment(createdAt).fromNow();
   return (
-    // <motion.div
-    <div
+    <motion.div
+      // <div
       initial={{ opacity: 0, x: "-100%" }}
       whileInView={{ opacity: 1, x: 0 }}
       style={{
@@ -34,7 +34,6 @@ const MessageComponent = ({ message, user }) => {
         </Typography>
       )}
       {content && <Typography>{content}</Typography>}
-
       {attachments.length > 0 &&
         attachments.map((attachment, index) => {
           const url = attachment.url;
@@ -48,12 +47,11 @@ const MessageComponent = ({ message, user }) => {
             </Box>
           );
         })}
-
       <Typography variant="caption" color={"text.secondary"}>
         {timeAgo}
       </Typography>
-      {/* </motion.div> */}
-    </div>
+    </motion.div>
+    // </div>
   );
 };
 

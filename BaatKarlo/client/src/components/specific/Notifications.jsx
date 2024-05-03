@@ -23,7 +23,8 @@ const Notifications = () => {
   const dispatch = useDispatch();
 
   const { isLoading, data, error, isError } = useGetNotificationsQuery();
-  const [acceptRequest] = useAsyncMutation(useAcceptFriendRequestMutation());
+  const [acceptRequest] = useAsyncMutation(useAcceptFriendRequestMutation);
+  // const [acceptRequest] = useAcceptFriendRequestMutation();
 
   const friendRequesthandler = async ({ _id, accept }) => {
     await acceptRequest("Accepting...", { requestId: _id, accept });

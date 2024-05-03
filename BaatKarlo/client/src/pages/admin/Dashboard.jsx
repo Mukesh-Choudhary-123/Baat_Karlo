@@ -33,7 +33,6 @@ const Dashboard = () => {
   );
   const [stats, setStats] = useState(null);
 
-  console.log(data);
   useEffect(() => {
     if (data) {
       setStats(data.messages);

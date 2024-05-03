@@ -27,6 +27,14 @@ import { removeNewMessagesAlert } from "../redux/reducers/chat";
 import { setIsFileMenu } from "../redux/reducers/misc";
 import { getSocket } from "../utils/socket";
 
+//
+//
+//
+////++++++++++++++++++ Chat Page +++++++++++++++++++++++++//
+//
+//
+//
+
 const Chat = ({ chatId, user }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
@@ -43,7 +51,6 @@ const Chat = ({ chatId, user }) => {
   const [userTyping, setUserTyping] = useState(false);
   const typingTimeout = useRef(null);
 
-  console.log(chatId, "AWErfawefaer");
   const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
 
   const oldMessagesChunk = useGetMessagesQuery({ chatId, page });
@@ -101,9 +108,9 @@ const Chat = ({ chatId, user }) => {
     };
   }, [chatId]);
 
-  useEffect(() => {
-    if (!chatDetails.data?.chat) return navigate("/");
-  }, [chatDetails.data]);
+  // useEffect(() => {
+  //   if (!chatDetails.data?.chat) return navigate("/");
+  // }, [chatDetails.data]);
 
   // useEffect(() => {
   //   if (!chatDetails) return navigate("/");
@@ -188,10 +195,9 @@ const Chat = ({ chatId, user }) => {
         }}
         spacing={"1rem"}
       >
-        {allMessages.map((i) => (
+        {allMessages?.map((i) => (
           <MessageComponent key={i._id} message={i} user={user} />
         ))}
-
         {userTyping && <TypingLoader />}
         <div ref={bottomRef} />
       </Stack>

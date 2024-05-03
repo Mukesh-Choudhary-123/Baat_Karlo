@@ -1,7 +1,6 @@
-import { Grid, Skeleton, Stack } from "@mui/material";
+import { Grid, Skeleton, Stack, Typography, Box } from "@mui/material";
 import React from "react";
 import { BouncingSkeleton } from "../styles/styledComponents";
-import { Forum } from "@mui/icons-material";
 import ForumIcon from "@mui/icons-material/Forum";
 
 const LayoutLoader = () => {
@@ -17,17 +16,33 @@ const LayoutLoader = () => {
         <Skeleton variant="reactangular" height={"100vh"} />
       </Grid>
       <Grid item xs={12} sm={8} md={5} lg={6} height={"100%"}>
-        <Stack spacing={"1rem"}>
+        {/* <Stack spacing={"1rem"}>
           {Array.from({ length: 10 }).map((_, index) => (
             <Skeleton key={index} variant="rounded" height={"5rem"} />
           ))}
-        </Stack>
-        {/* <ForumIcon
-          sx={{
-            height: "10rem",
-            width: "10rem",
-          }}
-        /> */}
+        </Stack> */}
+        <Box
+          bgcolor={"rgb(242, 242, 242) "}
+          height={"100vh"}
+          display={"flex"}
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <ForumIcon
+            sx={{
+              height: "10rem",
+              width: "10rem",
+              opacity: "0.2",
+            }}
+          />
+          <Typography variant="h2" color={"lightgray"}>
+            BaatKarlo
+          </Typography>
+          <Typography variant="h5" color={"lightgray"}>
+            Chat App....
+          </Typography>
+        </Box>
       </Grid>
       <Grid
         item

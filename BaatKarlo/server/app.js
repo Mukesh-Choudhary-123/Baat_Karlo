@@ -96,8 +96,6 @@ io.on("connection", (socket) => {
       chat: chatId,
     };
 
-    console.log("Emmiting", messageForRealTime);
-
     const membersSocket = getSockets(members);
     io.to(membersSocket).emit(NEW_MESSAGE, {
       chatId,
@@ -130,11 +128,13 @@ io.on("connection", (socket) => {
 
   socket.on(CHAT_LEAVED, ({ userId, members }) => {
     onlineUsers.delete(userId.toString());
+
     const membersSocket = getSockets(members);
     io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
   });
 
   socket.on("disconnect", () => {
+    // console.log("disconnect");
     userSocketIDs.delete(user._id.toString());
     onlineUsers.delete(user._id.toString());
     socket.broadcast.emit(ONLINE_USERS, Array.from(onlineUsers));

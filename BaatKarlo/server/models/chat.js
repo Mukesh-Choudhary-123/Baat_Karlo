@@ -6,10 +6,6 @@ const schema = new Schema(
       type: String,
       require: true,
     },
-    bio: {
-      type: String,
-      require: true,
-    },
     groupChat: {
       type: Boolean,
       default: false,

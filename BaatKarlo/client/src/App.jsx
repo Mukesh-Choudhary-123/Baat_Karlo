@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import ProtectRoute from "./components/auth/ProtectRoute";
 import { LayoutLoader } from "./components/layout/Loaders";
 import axios from "axios";
@@ -22,7 +22,6 @@ const MessageManagement = lazy(() => import("./pages/admin/MessageManagement"));
 
 function App() {
   const { user, loader } = useSelector((state) => state.auth);
-  console.log(user, "APP APP APP");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,18 +57,24 @@ function App() {
                 </ProtectRoute>
               }
             />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/user" element={<UserManagement />} />
+            <Route path="/admin/chats" element={<ChatManagement />} />
+            <Route path="/admin/messages" element={<MessageManagement />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/user" element={<UserManagement />} />
             <Route path="/admin/chats" element={<ChatManagement />} />
             <Route path="/admin/messages" element={<MessageManagement />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
-        </Suspense>
+        </Suspense> */}
         <Toaster position="bottom-center" />
       </BrowserRouter>
     </>

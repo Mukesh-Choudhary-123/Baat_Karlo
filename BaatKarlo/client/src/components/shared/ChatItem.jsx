@@ -4,6 +4,12 @@ import { Box, Stack, Typography } from "@mui/material";
 import AvatarCard from "./AvatarCard";
 import { motion } from "framer-motion";
 
+//
+//
+////++++++++++++++++++ Contact's +++++++++++++++++++++++++//
+//
+//
+
 const ChatItem = ({
   avatar = [],
   name,
@@ -23,8 +29,7 @@ const ChatItem = ({
       to={`/chat/${_id}`}
       onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
     >
-      <div
-        // <motion.div
+      <motion.div
         initial={{ opacity: 0, y: "-100%" }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.1 }}
@@ -52,7 +57,7 @@ const ChatItem = ({
               width: "10px",
               height: "10px",
               borderRadius: "50%",
-              backgroundColor: "green",
+              backgroundColor: "rgb(52, 152, 219)",
               position: "absolute",
               top: "50%",
               right: "1rem",
@@ -60,8 +65,7 @@ const ChatItem = ({
             }}
           />
         )}
-      </div>
-      {/* </motion.div> */}
+      </motion.div>
     </Link>
   );
 };

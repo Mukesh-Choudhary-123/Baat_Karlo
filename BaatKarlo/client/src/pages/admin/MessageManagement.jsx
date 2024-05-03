@@ -87,7 +87,6 @@ const MessageManagement = () => {
     `${server}/api/v1/admin/messages`,
     "dashboard-messages"
   );
-  console.log(data);
 
   useErrors([{ isError: error, error: error }]);
   const [rows, setRows] = useState([]);

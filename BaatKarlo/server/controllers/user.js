@@ -17,11 +17,10 @@ const newUser = TryCatch(async (req, res, next) => {
   const { name, username, password, bio } = req.body;
 
   const file = req.file;
-  console.count("checking");
+
   if (!file) return next(new ErrorHandler("please Upload Avatar"));
 
   const result = await uploadFilesToCloudinary([file]);
-  // console.log(result, "resutl");
   const avatar = {
     public_id: result[0].public_id,
     url: result[0].url,
@@ -34,6 +33,7 @@ const newUser = TryCatch(async (req, res, next) => {
     avatar,
     bio,
   });
+
   sendToken(res, user, 201, "User Created");
 });
 
@@ -122,9 +122,9 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
 const acceptFriendRequest = TryCatch(async (req, res, next) => {
   const { requestId, accept } = req.body;
   const request = await Request.findById(requestId);
-  // .populate("sender", "name");
+  // .populate("sender", "name")
   // .populate("receiver", "name");
-  // console.log(request, "yugytyfgty");
+
   if (!request) return next(new ErrorHandler("Request not found", 404));
 
   if (request.receiver._id.toString() !== req.user.toString())
