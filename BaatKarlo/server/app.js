@@ -9,8 +9,11 @@ import { v4 as uuid } from "uuid";
 import {
   CHAT_JOINED,
   CHAT_LEAVED,
+  INCOMING_CALL,
+  MISSED_CALL,
   NEW_MESSAGE,
   NEW_MESSAGE_ALERT,
+  OFFER_CALL,
   ONLINE_USERS,
   START_TYPING,
   STOP_TYPING,
@@ -75,6 +78,7 @@ io.on("connection", (socket) => {
   const user = socket.user;
   userSocketIDs.set(user._id.toString(), socket.id);
 
+  // console.log("User : ", user);
   // console.log(userSocketIDs);
   // console.log("a user connected", socket.id);
 
@@ -97,6 +101,7 @@ io.on("connection", (socket) => {
     };
 
     const membersSocket = getSockets(members);
+
     io.to(membersSocket).emit(NEW_MESSAGE, {
       chatId,
       message: messageForRealTime,
@@ -132,6 +137,39 @@ io.on("connection", (socket) => {
     const membersSocket = getSockets(members);
     io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
   });
+
+  socket.on(OFFER_CALL, async ({ chatId, members, userId }) => {
+    const membersSocket = getSockets(members);
+
+    const reciverSocketId = membersSocket[1];
+
+    io.to(socket.id).emit("user:joined", {
+      chatId,
+      userId,
+      reciverSocketId,
+      members,
+    });
+  });
+
+  socket.on("user:call", ({ to, offer, members }) => {
+    const membersSocket = getSockets(members);
+
+    socket.to(membersSocket).emit("incoming:call", { from: socket.id, offer });
+  });
+
+  socket.on("call:accepted", ({ to, ans }) => {
+    io.to(to).emit("call:accepted", { from: socket.id, ans });
+  });
+
+  socket.on("peer:nego:needed", ({ to, offer }) => {
+    io.to(to).emit("peer:nego:needed", { from: socket.id, offer });
+  });
+
+  socket.on("peer:nego:done", ({ to, ans }) => {
+    io.to(to).emit("peer:nego:final", { from: socket.id, ans });
+  });
+
+  socket.on("call:decline", ({ remoteStream, info, sockets }) => {});
 
   socket.on("disconnect", () => {
     // console.log("disconnect");

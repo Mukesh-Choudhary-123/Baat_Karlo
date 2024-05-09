@@ -12,6 +12,8 @@ import { SocketProvider } from "./utils/socket";
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
 const Chat = lazy(() => import("./pages/Chat"));
+const Voice = lazy(() => import("./pages/Voice"));
+const Video = lazy(() => import("./pages/Video"));
 const Groups = lazy(() => import("./pages/Groups"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -47,6 +49,8 @@ function App() {
             >
               <Route path="/" element={<Home />} />
               <Route path="/chat/:chatId" element={<Chat />} />
+              <Route path="/voice" element={<Voice />} />
+              <Route path="/video" element={<Video />} />
               <Route path="/groups" element={<Groups />} />
             </Route>
             <Route

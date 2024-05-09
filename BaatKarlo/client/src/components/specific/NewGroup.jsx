@@ -74,7 +74,7 @@ const NewGroup = () => {
           value={groupName.value}
           onChange={groupName.changeHandler}
         />
-        <Typography variant="body1">Members</Typography>
+        <Typography variant="body1">Select Members</Typography>
         <Stack>
           {isLoading ? (
             <Skeleton />

@@ -3,6 +3,8 @@ const initialState = {
   isNewGroup: false,
   isAddMember: false,
   isNotification: false,
+  isCallHistory: false,
+  isCall: false,
   isMobileMenuFriend: false,
   isSearch: false,
   isFileMenu: false,
@@ -23,6 +25,12 @@ const miscSlice = createSlice({
     },
     setIsNotification: (state, action) => {
       state.isNotification = action.payload;
+    },
+    setIsCallHistory: (state, action) => {
+      state.isCallHistory = action.payload;
+    },
+    setIsCall: (state, action) => {
+      state.isCall = action.payload;
     },
     setIsAddMember: (state, action) => {
       state.isAddMember = action.payload;
@@ -56,6 +64,8 @@ export const {
   setIsMobileMenuFriend,
   setIsNewGroup,
   setIsNotification,
+  setIsCallHistory,
+  setIsCall,
   setIsSearch,
   setSelectedDeleteChat,
   setUploadingLoader,

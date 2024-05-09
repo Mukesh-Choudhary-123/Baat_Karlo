@@ -25,12 +25,14 @@ import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { userNotExists } from "../../redux/reducers/auth";
 import {
+  setIsCallHistory,
   setIsMobileMenuFriend,
   setIsNewGroup,
   setIsNotification,
   setIsSearch,
 } from "../../redux/reducers/misc";
 import { resetNotificationCount } from "../../redux/reducers/chat";
+import SettingsPhoneIcon from "@mui/icons-material/SettingsPhone";
 
 const SearchDialog = lazy(() => import("../specific/Search"));
 const NotificationDilog = lazy(() => import("../specific/Notifications"));
@@ -56,6 +58,11 @@ const Header = () => {
   };
   const naviageToGroup = () => navigate("/groups");
   const naviageToHome = () => navigate("/");
+
+  const openCallHistroy = () => {
+    dispatch(setIsCallHistory(true));
+  };
+
   const OpenNotification = () => {
     dispatch(setIsNotification(true)), dispatch(resetNotificationCount());
   };
@@ -130,6 +137,11 @@ const Header = () => {
                 icon={<NotificationsIcon />}
                 onClick={OpenNotification}
                 value={notificationCount}
+              />
+              <IconBtn
+                title={"Call History"}
+                icon={<SettingsPhoneIcon />}
+                onClick={openCallHistroy}
               />
               <IconBtn
                 title={"Logout"}

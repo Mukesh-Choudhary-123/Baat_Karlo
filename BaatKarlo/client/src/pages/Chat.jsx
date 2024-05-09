@@ -1,12 +1,14 @@
 import { useInfiniteScrollTop } from "6pp";
 import {
   AttachFile as AttachFileIcon,
+  Call as CallIcon,
+  Duo as DuoIcon,
   Send as SendIcon,
 } from "@mui/icons-material";
-import { IconButton, Skeleton, Stack } from "@mui/material";
+import { IconButton, Skeleton, Stack, Tooltip } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import FileMenu from "../components/dialogs/FileMenu";
 import Applayout from "../components/layout/Applayout";
 import { TypingLoader } from "../components/layout/Loaders";
@@ -18,13 +20,14 @@ import {
   CHAT_JOINED,
   CHAT_LEAVED,
   NEW_MESSAGE,
+  OFFER_CALL,
   START_TYPING,
   STOP_TYPING,
 } from "../constants/events";
 import { useErrors, useSocketEvents } from "../hooks/hook";
 import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
 import { removeNewMessagesAlert } from "../redux/reducers/chat";
-import { setIsFileMenu } from "../redux/reducers/misc";
+import { setIsCall, setIsFileMenu } from "../redux/reducers/misc";
 import { getSocket } from "../utils/socket";
 
 //
@@ -41,6 +44,7 @@ const Chat = ({ chatId, user }) => {
   const bottomRef = useRef(null);
 
   const socket = getSocket();
+  // console.log(socket.id);
   const dispatch = useDispatch();
 
   const [message, setMessage] = useState("");
@@ -69,6 +73,24 @@ const Chat = ({ chatId, user }) => {
   ];
 
   const members = chatDetails?.data?.chat?.members;
+
+  const groupChat = chatDetails?.data?.chat?.groupChat;
+
+  // const VoiceCallHandler = (e) => {
+  //   console.log("VoiceCallHandler Button");
+  //   navigate("/voice");
+  // };
+
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  const handleVideoCall = async () => {
+    console.log("handleVideoCall");
+    await socket.emit(OFFER_CALL, { members, chatId, userId: user._id });
+    setIsCall(true);
+    navigate("/video"); // Redirect to video call page
+  };
+
+  //+++++++++=+=+=+=+=+=+=+==++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   const messageOnChange = (e) => {
     setMessage(e.target.value);
@@ -175,6 +197,8 @@ const Chat = ({ chatId, user }) => {
 
   const allMessages = [...oldMessages, ...messages];
 
+  const imageUrl = "https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg";
+
   return chatDetails.isLoading ? (
     <Skeleton />
   ) : (
@@ -192,6 +216,9 @@ const Chat = ({ chatId, user }) => {
           "&::-webkit-scrollbar": { width: "3px" },
           "&::-webkit-scrollbar-track": { background: "#f1f1f1" },
           "&::-webkit-scrollbar-thumb": { background: "#888" },
+          backgroundImage: `url(${imageUrl})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
         spacing={"1rem"}
       >
@@ -230,22 +257,63 @@ const Chat = ({ chatId, user }) => {
             value={message}
             onChange={messageOnChange}
           />
-          <IconButton
-            type="submit"
-            sx={{
-              bgcolor: "rgb(52, 152, 219)",
-              color: "white",
-              marginLeft: "1rem",
-              padding: "0.6rem",
-              "&:hover": {
-                bgcolor: "rgb(52, 152, 219,0.5)",
-              },
-            }}
-          >
-            <SendIcon />
-          </IconButton>
+          <Tooltip title={"Send"}>
+            <IconButton
+              type="submit"
+              sx={{
+                bgcolor: "rgb(52, 152, 219)",
+                color: "white",
+                marginLeft: "1rem",
+                // padding: "0.6rem",
+                "&:hover": {
+                  bgcolor: "rgb(52, 152, 219,0.5)",
+                },
+              }}
+            >
+              <SendIcon />
+            </IconButton>
+          </Tooltip>
+
+          {!groupChat ? (
+            <>
+              {/* <Tooltip title={"Voice Call"}>
+                <IconButton
+                  onClick={VoiceCallHandler}
+                  sx={{
+                    bgcolor: "rgb(52, 152, 219)",
+                    color: "white",
+                    marginLeft: "1rem",
+                    // padding: "0.6rem",
+                    "&:hover": {
+                      bgcolor: "green",
+                    },
+                  }}
+                >
+                  <CallIcon />
+                </IconButton>
+              </Tooltip> */}
+
+              <Tooltip title={"Video Call"}>
+                <IconButton
+                  onClick={handleVideoCall}
+                  sx={{
+                    bgcolor: "rgb(52, 152, 219)",
+                    color: "white",
+                    marginLeft: "1rem",
+                    // padding: "0.6rem",
+                    "&:hover": {
+                      bgcolor: "green",
+                    },
+                  }}
+                >
+                  <DuoIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+          ) : null}
         </Stack>
       </form>
+
       <FileMenu anchorE1={fileMenuAnchor} chatId={chatId} />
     </>
   );

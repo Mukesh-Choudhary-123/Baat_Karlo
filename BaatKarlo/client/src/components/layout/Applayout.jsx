@@ -11,10 +11,12 @@ import {
   setIsDeleteMenu,
   setIsMobileMenuFriend,
   setSelectedDeleteChat,
+  setIsCall,
 } from "../../redux/reducers/misc";
 import { useErrors, useSocketEvents } from "../../hooks/hook";
 import { getSocket } from "../../utils/socket";
 import {
+  INCOMING_CALL,
   NEW_MESSAGE_ALERT,
   NEW_REQUEST,
   ONLINE_USERS,
@@ -28,6 +30,7 @@ import { getOrSaveFromStorage } from "../../lib/features";
 import DeleteChatMenu from "../dialogs/DeleteChatMenu";
 import { useFetchData } from "6pp";
 import { server } from "../../constants/config";
+import CallNotification from "../dialogs/CallNotification";
 
 const Applayout = () => (WrappedComponent) => {
   return (props) => {
@@ -36,10 +39,10 @@ const Applayout = () => (WrappedComponent) => {
     const dispatch = useDispatch();
     const socket = getSocket();
 
-    // const { contact } = useSelector((state) => state.User);
-
     const chatId = params.chatId;
     const deleteMenuAnchor = useRef(null);
+
+    const { isCall } = useSelector((state) => state.misc);
 
     const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -107,6 +110,7 @@ const Applayout = () => (WrappedComponent) => {
       <>
         <Title />
         <Header />
+        {isCall && <CallNotification isCall={isCall} />}
         <DeleteChatMenu
           dispatch={dispatch}
           deleteMenuAnchor={deleteMenuAnchor}

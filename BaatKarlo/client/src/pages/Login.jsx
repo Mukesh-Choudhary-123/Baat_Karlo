@@ -2,6 +2,7 @@ import { useFileHandler, useInputValidation } from "6pp";
 import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
 import {
   Avatar,
+  Box,
   Button,
   Container,
   IconButton,
@@ -114,15 +115,7 @@ const Login = () => {
   };
 
   return (
-    <div
-      style={
-        {
-          // backgroundColor: "lightgray",
-          // backgroundImage:
-          //   "linear-gradient(rgb(217 42 42 / 50%), rgb(21 0 227 / 50%))",
-        }
-      }
-    >
+    <Box>
       {isLogin ? (
         <Container
           component={"main"}
@@ -135,8 +128,9 @@ const Login = () => {
           }}
         >
           <Paper
-            elevation={4}
+            elevation={9}
             sx={{
+              minHeight: "100vh",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -228,14 +222,14 @@ const Login = () => {
           component={"main"}
           maxWidth="xs"
           sx={{
-            height: "160vh",
+            minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
           <Paper
-            elevation={4}
+            elevation={9}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -393,9 +387,7 @@ const Login = () => {
           </Paper>
         </Container>
       )}
-      {/* </Paper>
-      </Container> */}
-    </div>
+    </Box>
   );
 };
 

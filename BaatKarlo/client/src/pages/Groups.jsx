@@ -311,6 +311,7 @@ const Groups = () => {
                 alignSelf={"flex-start"}
                 variant="body1"
                 fontWeight={"600"}
+                fontStyle={"italic"}
               >
                 All Members
               </Typography>
@@ -324,7 +325,7 @@ const Groups = () => {
                   xs: "0",
                   md: "1rem 4rem",
                 }}
-                spacing={"2rem"}
+                spacing={"1rem"}
                 // bgcolor={"rgba(0,0,0,0.1)"}
                 height={"50vh"}
                 borderRadius={"1rem"}
@@ -360,7 +361,6 @@ const Groups = () => {
             </>
           ) : (
             <>
-              {" "}
               <Box
                 // bgcolor={"rgb(242, 242, 242) "}
                 height={"100%"}
