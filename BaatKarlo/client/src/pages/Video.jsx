@@ -247,7 +247,7 @@ const Video = () => {
               </Typography>
               <ReactPlayer
                 playing={true}
-                muted
+                muted={false}
                 height="100px"
                 width="200px"
                 url={myStream}
@@ -262,7 +262,7 @@ const Video = () => {
               </Typography>
               <ReactPlayer
                 playing={true}
-                muted
+                muted={false}
                 height="20rem"
                 width="20rem"
                 url={remoteStream}
